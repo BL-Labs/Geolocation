@@ -11,6 +11,7 @@
     </div>
 </div>
 
+
 <div class="field">
     <div class="two columns alpha">
         <label for="default_longitude"><?php echo __('Default Longitude'); ?></label>
