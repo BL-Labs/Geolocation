@@ -15,9 +15,11 @@ var chartistIcon = L.Icon.extend({
       }
     });
     
-var blackIcon = new chartistIcon({iconUrl: '../images/meeting_black.png'}),
-    redIcon = new chartistIcon({iconUrl: '../images/meeting_red.png'}),
-    yellowIcon = new chartistIcon({iconUrl: '../images/meeting_yellow.png'});
+// FIXME: HATE THIS. hardcoding url to icons in plugin folder
+// can't see a way round this at the js level.
+var blackIcon = new chartistIcon({iconUrl: '/maps/plugins/Geolocation/views/shared/images/meeting_black.png'}),
+    redIcon = new chartistIcon({iconUrl: '/maps/plugins/Geolocation/views/shared/images/meeting_red.png'}),
+    yellowIcon = new chartistIcon({iconUrl: '/maps/plugins/Geolocation/views/shared/images/meeting_yellow.png'});
 
 OmekaMap.prototype = {
     
