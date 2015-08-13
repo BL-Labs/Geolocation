@@ -165,7 +165,6 @@ class GeolocationPlugin extends Omeka_Plugin_AbstractPlugin
     public function hookPublicHead($args)
     {
         queue_js_url("//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js");
-        queue_js_url("//benosteen.com/foo.js");
         queue_css_url('//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css');
         queue_css_file('geolocation-marker');
         queue_js_file('map');
