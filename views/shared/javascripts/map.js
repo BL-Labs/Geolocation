@@ -15,9 +15,9 @@ var chartistIcon = L.Icon.extend({
       }
     });
     
-var blackIcon = new chartistIcon({iconUrl: 'meeting_black.png'}),
-    redIcon = new chartistIcon({iconUrl: 'meeting_red.png'}),
-    yellowIcon = new chartistIcon({iconUrl: 'meeting_yellow.png'});
+var blackIcon = new chartistIcon({iconUrl: 'plugins/Geolocation/views/shared/images/meeting_black.png'}),
+    redIcon = new chartistIcon({iconUrl: 'plugins/Geolocation/views/shared/images/meeting_red.png'}),
+    yellowIcon = new chartistIcon({iconUrl: 'plugins/Geolocation/views/shared/images/meeting_yellow.png'});
 
 OmekaMap.prototype = {
     
