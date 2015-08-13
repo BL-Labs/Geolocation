@@ -79,7 +79,7 @@ OmekaMap.prototype = {
         // Build the map.
         var mapOptions = {
             zoom: this.center.zoomLevel,
-            center: {new L.LatLng(this.center.latitude, this.center.longitude)},
+            center: new L.LatLng(this.center.latitude, this.center.longitude),
         };
 
         switch (this.options.mapType) {
