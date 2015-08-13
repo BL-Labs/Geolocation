@@ -13,20 +13,35 @@ OmekaMap.prototype = {
     center: null,
     markerBounds: null,
     
+    chartistIcon = L.Icon.extend({
+      options: {
+        // shadowUrl: 'meetingshadow.png',
+        //shadowSize:   [50, 64],
+        //shadowAnchor: [4, 62],
+        iconSize:     [35, 36],
+        iconAnchor:   [0, 0],
+        popupAnchor:  [-3, -35]
+      }
+    });
+    
+    var blackIcon = new chartistIcon({iconUrl: 'meeting_black.png'}),
+    redIcon = new chartistIcon({iconUrl: 'meeting_red.png'}),
+    yellowIcon = new chartistIcon({iconUrl: 'meeting_yellow.png'});
+    
     addMarker: function (lat, lng, options, bindHtml)
     {        
         if (!options) {
             options = {};
         }
-        options.position = new google.maps.LatLng(lat, lng);
+        options.position = new L.LatLng(lat, lng);
         options.map = this.map;
           
-        var marker = new google.maps.Marker(options);
+        // FIXME: Colour/icon of the marker is chosen here!
+        var marker = new L.marker(options.position, {icon: blackIcon});
         
         if (bindHtml) {
-            var infoWindow = new google.maps.InfoWindow({
-                content: bindHtml
-            });
+            marker.addTo(this.map).bindPopup(bindHtml);
+            /*   FIXME Add event listener to do... something when clicked
 
             var that = this;
             google.maps.event.addListener(marker, 'click', function () {
@@ -37,6 +52,9 @@ OmekaMap.prototype = {
                 that.lastWindow = infoWindow;
                 infoWindow.open(this.map, marker);
             });
+            */
+        } else {
+            marker.addTo(this.map);
         }
                
         this.markers.push(marker);
@@ -61,36 +79,55 @@ OmekaMap.prototype = {
         // Build the map.
         var mapOptions = {
             zoom: this.center.zoomLevel,
-            center: new google.maps.LatLng(this.center.latitude, this.center.longitude),
+            center: {new L.LatLng(this.center.latitude, this.center.longitude)},
         };
 
         switch (this.options.mapType) {
-        case 'hybrid':
-            mapOptions.mapTypeId = google.maps.MapTypeId.HYBRID;
+        case 'osm':
+            mapOptions.mapTypeId = "osm";
             break;
-        case 'satellite':
-            mapOptions.mapTypeId = google.maps.MapTypeId.SATELLITE;
-            break;
-        case 'terrain':
-            mapOptions.mapTypeId = google.maps.MapTypeId.TERRAIN;
-            break;
-        case 'roadmap':
+        case 'nls':
         default:
-            mapOptions.mapTypeId = google.maps.MapTypeId.ROADMAP;
+            mapOptions.mapTypeId = "nls";
         }
+        
+        // OSM + NLS layers
+        var osm = L.tileLayer( 'http://{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.png', {
+                                     attribution: '&copy; <a href="http://osm.org/copyright" title="OpenStreetMap" target="_blank">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" title="MapQuest" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" width="16" height="16">',
+                                     subdomains: ['otile1','otile2','otile3','otile4']}),
+        nls = L.tileLayer('http://geo.nls.uk/maps/os/1inch_2nd_ed/{z}/{x}/{y}.png', {
+                  tms: true,
+                  attribution: 'Base map: Ordnance Survey <i>One-Inch to the mile</i> (1885-1900) courtesy of the <a href="http://maps.nls.uk/">' + 'National Library of Scotland</a>',
+                  maxNativeZoom: 15,
+                  maxZoom: 20
+            });
+        
+        // GeoTIFF overlay layers:
+        var oxfordst = L.tileLayer.wms('http://politicalmeetingsmapper.co.uk:8080/geoserver/wms', {
+            layers: 'test:oxfordst_modified',
+            format: 'image/png',
+            version: '1.1.1',
+            transparent: true,
+            tiled: true,
+            attribution: 'Oxford Street (modified)',
+        })
+        
+        var baseMaps = {
+           "OpenStreetMap": osm,
+           "NLS 1880-1910 map": nls
+        };
 
+        var overlayMaps = {
+           "Oxford St": oxfordst,
+        };
+        
+        mapOptions.layers = [osm, nls];
+        
         jQuery.extend(mapOptions, this.options.mapOptions);
-
-        this.map = new google.maps.Map(document.getElementById(this.mapDivId), mapOptions);
-        this.markerBounds = new google.maps.LatLngBounds();
-
-        // Show the center marker if we have that enabled.
-        if (this.center.show) {
-            this.addMarker(this.center.latitude, 
-                           this.center.longitude, 
-                           {title: "(" + this.center.latitude + ',' + this.center.longitude + ")"}, 
-                           this.center.markerHtml);
-        }
+        
+        this.map = new L.map(document.getElementById(this.mapDivId), mapOptions);
+        L.control.layers(baseMaps, overlayMaps).addTo(this.map);
+        //this.markerBounds = new google.maps.LatLngBounds(); // FIXME Hmm will likely need to replace this
     }
 };
 
@@ -387,7 +424,7 @@ OmekaMapForm.prototype = {
             var marker = this.markers[0];
             point = marker.getPosition();
         } else {
-            point = new google.maps.LatLng(this.center.latitude, this.center.longitude);
+            point = new L.LatLng(this.center.latitude, this.center.longitude);
         }
         this.map.setCenter(point);
     }
