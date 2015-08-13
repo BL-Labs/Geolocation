@@ -271,6 +271,7 @@ OmekaMapBrowse.prototype = {
 
 function OmekaMapSingle(mapDivId, center, options) {
     var omekaMap = new OmekaMap(mapDivId, center, options);
+    omekaMap.addMarker(center.latitude, center.longitude);
     jQuery.extend(true, this, omekaMap);
     this.initMap();
 }
