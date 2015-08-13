@@ -10,7 +10,7 @@ var chartistIcon = L.Icon.extend({
         //shadowSize:   [50, 64],
         //shadowAnchor: [4, 62],
         iconSize:     [35, 36],
-        iconAnchor:   [0, 0],
+        iconAnchor:   [0, 36],
         popupAnchor:  [-3, -35]
       }
     });
