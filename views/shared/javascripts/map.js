@@ -4,16 +4,7 @@ function OmekaMap(mapDivId, center, options) {
     this.options = options;
 }
 
-OmekaMap.prototype = {
-    
-    map: null,
-    mapDivId: null,
-    markers: [],
-    options: {},
-    center: null,
-    markerBounds: null,
-    
-    chartistIcon = L.Icon.extend({
+var chartistIcon = L.Icon.extend({
       options: {
         // shadowUrl: 'meetingshadow.png',
         //shadowSize:   [50, 64],
@@ -24,9 +15,18 @@ OmekaMap.prototype = {
       }
     });
     
-    var blackIcon = new chartistIcon({iconUrl: 'meeting_black.png'}),
+var blackIcon = new chartistIcon({iconUrl: 'meeting_black.png'}),
     redIcon = new chartistIcon({iconUrl: 'meeting_red.png'}),
     yellowIcon = new chartistIcon({iconUrl: 'meeting_yellow.png'});
+
+OmekaMap.prototype = {
+    
+    map: null,
+    mapDivId: null,
+    markers: [],
+    options: {},
+    center: null,
+    markerBounds: null,
     
     addMarker: function (lat, lng, options, bindHtml)
     {        
