@@ -282,23 +282,22 @@ function OmekaMapForm(mapDivId, center, options) {
     jQuery.extend(true, this, omekaMap);
     this.initMap();
     
-    this.formDiv = jQuery('#' + this.options.form.id);       
+    this.formDiv = jQuery('#' + this.options.form.id);
         
-    // Make the map clickable to add a location point.
-    google.maps.event.addListener(this.map, 'click', function (event) {
-        // If we are clicking a new spot on the map
-        if (!that.options.confirmLocationChange || that.markers.length === 0 || confirm('Are you sure you want to change the location of the item?')) {
-            var point = event.latLng;
+    this.map.on('click', function(e) {
+      if (!that.options.confirmLocationChange || that.markers.length === 0 || confirm('Are you sure you want to change the location of the item?')) {
+            var point = e.latLng;
             var marker = that.setMarker(point);
             jQuery('#geolocation_address').val('');
         }
     });
 	
-    // Make the map update on zoom changes.
+    /* Make the map update on zoom changes.
     google.maps.event.addListener(this.map, 'zoom_changed', function () {
         that.updateZoomForm();
     });
-
+    */
+    
     // Make the Find By Address button lookup the geocode of an address and add a marker.
     jQuery('#geolocation_find_location_by_address').bind('click', function (event) {
         var address = jQuery('#geolocation_address').val();
@@ -322,7 +321,7 @@ function OmekaMapForm(mapDivId, center, options) {
     if (this.options.point) {
         this.map.setZoom(this.options.point.zoomLevel);
 
-        var point = new google.maps.LatLng(this.options.point.latitude, this.options.point.longitude);
+        var point = new L.LatLng(this.options.point.latitude, this.options.point.longitude);
         var marker = this.setMarker(point);
         this.map.setCenter(marker.getPosition());
     }
@@ -365,16 +364,14 @@ OmekaMapForm.prototype = {
         
         // Add the marker
         var marker = this.addMarker(point.lat(), point.lng());
-        marker.setAnimation(google.maps.Animation.DROP);
         
         // Pan the map to the marker
         that.map.panTo(point);
         
-        //  Make the marker clear the form if clicked.
-        google.maps.event.addListener(marker, 'click', function (event) {
-            if (!that.options.confirmLocationChange || confirm('Are you sure you want to remove the location of the item?')) {
+        this.map.on('click', function(e) {
+          if (!that.options.confirmLocationChange || confirm('Are you sure you want to remove the location of the item?')) {
                 that.clearForm();
-            }
+          }
         });
         
         this.updateForm(point);
