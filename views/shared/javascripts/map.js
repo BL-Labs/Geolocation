@@ -76,7 +76,7 @@ OmekaMap.prototype = {
         }
                
         this.markers.push(marker);
-        this.markerBounds = L.latLngBounds(this.markers);
+        this.markerBounds = L.latLngBounds(jQuery.map(this.markers, function (e) {return e.getLatLng();}));
         return marker;
     },
 
