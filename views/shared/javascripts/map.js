@@ -276,7 +276,7 @@ OmekaMapBrowse.prototype = {
             // Clicking the link should take us to the map
             link.bind('click', {}, function (event) {
                 marker.fireEvent('click');
-                that.map.panTo(marker.getPosition()); 
+                that.map.panTo(marker.getLatLng()); 
             });  
 
             link.appendTo(listElement);
