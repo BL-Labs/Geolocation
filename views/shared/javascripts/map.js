@@ -31,7 +31,7 @@ var smallIcon = L.Icon.extend({
 var blackIcon = new chartistIcon({iconUrl: '/maps/plugins/Geolocation/views/shared/images/meeting_black.png'}),
     redIcon = new chartistIcon({iconUrl: '/maps/plugins/Geolocation/views/shared/images/meeting_red.png'}),
     yellowIcon = new chartistIcon({iconUrl: '/maps/plugins/Geolocation/views/shared/images/meeting_yellow.png'}),
-    smallIcon = new smallIcon({iconUrl: '/maps/plugins/Geolocation/views/shared/images/plainmarker.png'}),;
+    smallIcon = new smallIcon({iconUrl: '/maps/plugins/Geolocation/views/shared/images/plainmarker.png'});
 
 OmekaMap.prototype = {
     
