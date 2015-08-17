@@ -76,7 +76,7 @@ OmekaMap.prototype = {
         }
                
         this.markers.push(marker);
-        this.markerBounds = new L.latLngBounds(this.markers);
+        this.markerBounds = L.latLngBounds(this.markers);
         return marker;
     },
 
@@ -145,7 +145,9 @@ OmekaMap.prototype = {
         
         this.map = new L.map(document.getElementById(this.mapDivId), mapOptions);
         L.control.layers(baseMaps, overlayMaps).addTo(this.map);
-        this.markerBounds = new L.LatLngBounds([this.center, this.center]); // FIXME Hmm will likely need to replace this
+        if (this.center) {
+          this.markerBounds = L.LatLngBounds([this.center, this.center]); // FIXME Hmm will likely need to replace this
+        }
     }
 };
 
