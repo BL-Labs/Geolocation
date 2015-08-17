@@ -60,7 +60,7 @@ OmekaMap.prototype = {
         }
                
         this.markers.push(marker);
-        this.markerBounds.extend(options.position);
+        this.markerBounds = new L.latLngBounds(this.markers);
         return marker;
     },
 
@@ -129,7 +129,7 @@ OmekaMap.prototype = {
         
         this.map = new L.map(document.getElementById(this.mapDivId), mapOptions);
         L.control.layers(baseMaps, overlayMaps).addTo(this.map);
-        //this.markerBounds = new google.maps.LatLngBounds(); // FIXME Hmm will likely need to replace this
+        this.markerBounds = new L.LatLngBounds([this.center, this.center]); // FIXME Hmm will likely need to replace this
     }
 };
 
@@ -259,9 +259,9 @@ OmekaMapBrowse.prototype = {
 
             // Clicking the link should take us to the map
             link.bind('click', {}, function (event) {
-                google.maps.event.trigger(marker, 'click');
+                marker.fireEvent('click');
                 that.map.panTo(marker.getPosition()); 
-            });     
+            });  
 
             link.appendTo(listElement);
             listElement.appendTo(list);

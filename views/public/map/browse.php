@@ -5,9 +5,6 @@ $title = __('Browse Items on the Map') . ' ' . __('(%s total)', $totalItems);
 echo head(array('title' => $title, 'bodyclass' => 'map browse'));
 ?>
 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
-<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
-
 <h1><?php echo $title; ?></h1>
 
 <nav class="items-nav navigation secondary-nav">
