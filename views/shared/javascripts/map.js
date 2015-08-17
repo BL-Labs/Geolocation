@@ -53,6 +53,10 @@ OmekaMap.prototype = {
         // FIXME: Colour/icon of the marker is chosen here!
         var marker = new L.marker(options.position, {icon: smallIcon});
         
+        if (options.title) {
+          marker.title = options.title;
+        }
+        
         if (bindHtml) {
             marker.addTo(this.map).bindPopup(bindHtml);
             /*   FIXME Add event listener to do... something when clicked
@@ -267,7 +271,7 @@ OmekaMapBrowse.prototype = {
             link.attr('href', 'javascript:void(0);');
 
             // Each <li> starts with the title of the item            
-            link.html(marker.getTitle());
+            link.html(marker.title);
 
             // Clicking the link should take us to the map
             link.bind('click', {}, function (event) {
