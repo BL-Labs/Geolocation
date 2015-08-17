@@ -14,12 +14,24 @@ var chartistIcon = L.Icon.extend({
         popupAnchor:  [-3, -35]
       }
     });
+
+var smallIcon = L.Icon.extend({
+      options: {
+        // shadowUrl: 'meetingshadow.png',
+        //shadowSize:   [50, 64],
+        //shadowAnchor: [4, 62],
+        iconSize:     [12, 12],
+        iconAnchor:   [0, 12],
+        popupAnchor:  [-3, -15]
+      }
+    });
     
 // FIXME: HATE THIS. hardcoding url to icons in plugin folder
 // can't see a way round this at the js level.
 var blackIcon = new chartistIcon({iconUrl: '/maps/plugins/Geolocation/views/shared/images/meeting_black.png'}),
     redIcon = new chartistIcon({iconUrl: '/maps/plugins/Geolocation/views/shared/images/meeting_red.png'}),
-    yellowIcon = new chartistIcon({iconUrl: '/maps/plugins/Geolocation/views/shared/images/meeting_yellow.png'});
+    yellowIcon = new chartistIcon({iconUrl: '/maps/plugins/Geolocation/views/shared/images/meeting_yellow.png'}),
+    smallIcon = new smallIcon({iconUrl: '/maps/plugins/Geolocation/views/shared/images/plainmarker.png'}),;
 
 OmekaMap.prototype = {
     
@@ -39,7 +51,7 @@ OmekaMap.prototype = {
         options.map = this.map;
           
         // FIXME: Colour/icon of the marker is chosen here!
-        var marker = new L.marker(options.position, {icon: blackIcon});
+        var marker = new L.marker(options.position, {icon: smallIcon});
         
         if (bindHtml) {
             marker.addTo(this.map).bindPopup(bindHtml);
